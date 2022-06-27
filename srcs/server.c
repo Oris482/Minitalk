@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:11:42 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/06/26 23:18:25 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/06/27 23:01:02 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_connection_info	g_connection_info;
 
-void	response_to_client(int client_pid, int status)
+static void	response_to_client(int client_pid, int status)
 {
 	if (status == SUCCESS)
 		kill(client_pid, SIGUSR2);
@@ -22,7 +22,7 @@ void	response_to_client(int client_pid, int status)
 		kill(client_pid, SIGUSR1);
 }
 
-void	sig_handler(int signo, siginfo_t *sig_info, void *uc)
+static void	sig_handler(int signo, siginfo_t *sig_info, void *uc)
 {
 	if (g_connection_info.client_pid == 0)
 	{
@@ -31,9 +31,20 @@ void	sig_handler(int signo, siginfo_t *sig_info, void *uc)
 	// if (g_connection_info.client_pid == sig_info->si_pid)
 	if (sig_info->si_pid != 0)
 	{
-		ft_printf("Client PID = %d, %d\n", sig_info->si_pid, signo);
+		if (signo == SIGUSR2)
+			g_connection_info.data_byte += 1;
+		g_connection_info.data_byte <<= 1;
+		g_connection_info.bit_counter++;
+		if (g_connection_info.bit_counter == 8)
+		{
+			g_connection_info.data_sum += g_connection_info.data_byte;
+			ft_printf("%c", g_connection_info.data_byte);
+			g_connection_info.bit_counter = 0;
+			g_connection_info.data_byte = 0;
+		}
 		usleep(50);
-		kill(g_connection_info.client_pid, signo);
+		// kill(g_connection_info.client_pid, signo);
+		// ft_printf("%d\n", g_connection_info.data_byte);
 	}
 }
 
@@ -44,6 +55,10 @@ int	main(void)
 
 	ft_printf("server PID = %d\n", getpid());
 	g_connection_info.client_pid = 0;
+	g_connection_info.status = 0;
+	g_connection_info.data_sum = 0;
+	g_connection_info.data_byte = 0;
+	g_connection_info.bit_counter = 0;
 	sigemptyset(&sig_mask);
 	sigaddset(&sig_mask, SIGUSR1);
 	sigaddset(&sig_mask, SIGUSR2);
