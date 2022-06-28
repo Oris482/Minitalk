@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:11:39 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/06/27 23:01:02 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/06/28 22:25:56 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	send_signal(int pid, char *message)
 		while (1)
 		{
 			ft_printf("masking bit = %d cur_char = %d\n", masking_bit, cur_char);
-			usleep(50);
+			usleep(70);
 			if (cur_char & masking_bit)
 				kill(pid, SIGUSR2);
 			else
@@ -150,7 +150,7 @@ int	main(int argc, char *argv[])
 		calculate_checksum(argv[2]);
 		// make_connection(ft_atoi(argv[1]));
 		send_signal(ft_atoi(argv[1]), argv[2]);
-		send_checksum(ft_atoi(argv[1]));
+		// send_checksum(ft_atoi(argv[1]));
 	}
 	else
 		exit_with_props(-1, "Arguments error! #Usage : ./filename PID Message");

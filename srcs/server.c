@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:11:42 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/06/27 23:01:02 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/06/28 22:41:54 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void	response_to_client(int client_pid, int status)
 
 static void	sig_handler(int signo, siginfo_t *sig_info, void *uc)
 {
+	int	a = 0;
+
 	if (g_connection_info.client_pid == 0)
 	{
 		g_connection_info.client_pid = sig_info->si_pid;
@@ -31,18 +33,21 @@ static void	sig_handler(int signo, siginfo_t *sig_info, void *uc)
 	// if (g_connection_info.client_pid == sig_info->si_pid)
 	if (sig_info->si_pid != 0)
 	{
+		ft_printf("%d ", a);
+		g_connection_info.data_byte <<= 1;
 		if (signo == SIGUSR2)
 			g_connection_info.data_byte += 1;
-		g_connection_info.data_byte <<= 1;
 		g_connection_info.bit_counter++;
+		a++;
 		if (g_connection_info.bit_counter == 8)
 		{
 			g_connection_info.data_sum += g_connection_info.data_byte;
-			ft_printf("%c", g_connection_info.data_byte);
+			// ft_printf("%c", g_connection_info.data_byte);
+			// write(1, &g_connection_info.data_byte, 1);
 			g_connection_info.bit_counter = 0;
 			g_connection_info.data_byte = 0;
 		}
-		usleep(50);
+		// usleep(50);
 		// kill(g_connection_info.client_pid, signo);
 		// ft_printf("%d\n", g_connection_info.data_byte);
 	}

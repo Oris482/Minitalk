@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:12:29 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/06/27 22:50:41 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/06/28 22:44:02 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@
 typedef struct s_connection_info {
 	int	client_pid;
 	int	message_len;
-	int data_byte;
+	unsigned char	data_byte;
 	int	data_sum;
-	int	bit_counter;
+	unsigned char	bit_counter;
 	int	status;
 }	t_connection_info;
 #endif
