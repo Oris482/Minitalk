@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:12:29 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/06/28 22:44:02 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/06/30 16:55:39 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,25 @@
 
 # define SUCCESS 0
 # define ERROR -1
-# define DELAY 50
+
+# define IDLE 0
+# define GET_HEADER 1
+# define GET_MESSAGE 2
+# define GET_CHECKSUM 3
+# define VALIDATE 4
+
+# define DELAY 70
 # define RETRY_MAX 5
+
 # define CARRY_CHECK 65536
-# define VALID_DATA 65535
+# define VALID_DATA -1
 
 typedef struct s_connection_info {
 	int	client_pid;
 	int	message_len;
-	unsigned char	data_byte;
-	int	data_sum;
+	unsigned char	*message;
+	unsigned char	*head_message;
+	int	checksum;
 	unsigned char	bit_counter;
 	int	status;
 }	t_connection_info;
