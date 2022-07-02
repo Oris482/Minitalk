@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:11:42 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/02 18:43:56 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 19:52:58 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ static void	sig_handler(int signo, siginfo_t *sig_info, void *uc)
 {
 	if (g_connection_info.status != IDLE && \
 		g_connection_info.client_pid != sig_info->si_pid)
+	{
+		kill(sig_info->si_pid, SIGUSR1);
 		return ;
+	}
 	handle_client(signo, sig_info->si_pid);
 	(void)uc;
 }
