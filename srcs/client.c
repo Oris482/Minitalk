@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:11:39 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/02 16:28:47 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 18:43:55 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,18 @@ static void	sig_handler(int signo, siginfo_t *sig_info, void *uc)
 		{
 			ft_printf("%s\n", "Connection Established!");
 			g_connection_info.status = SEND_HEADER;
-			usleep(DELAY);
 		}
 		else if (g_connection_info.status == VALIDATE)
 		{
 			if (signo == SIGUSR2)
-				exit_with_props(1, "Success!");
+				exit_with_props(1, " <<< Success!");
 			else
-				exit_with_props(-1, "Data sending error!");
+				exit_with_props(-1, " <<< Data sending error!");
 		}
 		else
 		{
 			if (signo == SIGUSR1)
-				exit_with_props(-1, "Error response from server");
+				exit_with_props(-1, "\nError response from server");
 		}
 	}
 	(void)uc;
@@ -48,52 +47,52 @@ static void	send_header(int pid)
 
 	masking_bit = 1 << 31;
 	g_connection_info.status = IDLE;
-	kill(pid, SIGUSR2);
+	signal_with_delay(pid, SIGUSR2);
 	pause();
 	ft_printf("%s %d", "Sending header...", g_connection_info.message_len);
 	while (1)
 	{
-		usleep(DELAY);
 		if (g_connection_info.message_len & masking_bit)
-			kill(g_connection_info.server_pid, SIGUSR2);
+			signal_with_delay(g_connection_info.server_pid, SIGUSR2);
 		else
-			kill(g_connection_info.server_pid, SIGUSR1);
+			signal_with_delay(g_connection_info.server_pid, SIGUSR1);
 		masking_bit >>= 1;
 		if (masking_bit == 0)
 			break ;
 	}
+	ft_printf("%s", " >>> Waiting response...");
 	pause();
 	ft_printf("%s", " <<< OK!\n");
-	usleep(DELAY);
+	g_connection_info.send_progress = 0;
 	g_connection_info.status = SEND_MESSAGE;
 }
 
 static void	send_message(char *message)
 {
-	int		masking_bit;
-	char	cur_char;
+	unsigned int	masking_bit;
+	char			*head_message;
+	int				cur_progress;
 
-	ft_printf("%s %u", "Sending message...", ~g_connection_info.checksum);
+	head_message = message;
+	cur_progress = 0;
+	ft_printf("Sending message ");
 	while (*message)
 	{
 		masking_bit = 1 << 7;
-		cur_char = *message;
-		while (1)
+		while (masking_bit != 0)
 		{
-			usleep(DELAY);
-			if (cur_char & masking_bit)
-				kill(g_connection_info.server_pid, SIGUSR2);
+			if (*message & masking_bit)
+				signal_with_delay(g_connection_info.server_pid, SIGUSR2);
 			else
-				kill(g_connection_info.server_pid, SIGUSR1);
+				signal_with_delay(g_connection_info.server_pid, SIGUSR1);
 			masking_bit >>= 1;
-			if (masking_bit == 0)
-				break ;
 		}
-		pause();
 		message++;
+		print_send_progress(&cur_progress, head_message, \
+			message, g_connection_info.message_len);
 	}
+	pause();
 	ft_printf("%s", " <<< OK!\n");
-	usleep(DELAY);
 	g_connection_info.status = SEND_CHECKSUM;
 }
 
@@ -105,16 +104,15 @@ static void	send_checksum(void)
 	ft_printf("%s %u", "Sending checksum...", g_connection_info.checksum);
 	while (1)
 	{
-		usleep(DELAY);
 		if (g_connection_info.checksum & masking_bit)
-			kill(g_connection_info.server_pid, SIGUSR2);
+			signal_with_delay(g_connection_info.server_pid, SIGUSR2);
 		else
-			kill(g_connection_info.server_pid, SIGUSR1);
+			signal_with_delay(g_connection_info.server_pid, SIGUSR1);
 		masking_bit >>= 1;
 		if (masking_bit == 0)
 			break ;
 	}
-	ft_printf("%s", " <<< OK!\n");
+	ft_printf("%s", " >>> Waiting response...");
 	g_connection_info.status = VALIDATE;
 	pause();
 }

@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:12:26 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/02 16:41:30 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 18:40:13 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,13 @@
 void			exit_with_props(int exit_code, char *error_msg);
 void			validate_argument(int pid, char *message);
 unsigned int	calculate_checksum(char *message);
-void	signal_with_delay(int pid, int signo);
+void			signal_with_delay(int pid, int signo);
+void			print_send_progress(int *state, char *head, char *cur, int len);
 
 typedef struct s_connection_info {
 	int				server_pid;
 	int				message_len;
+	int				send_progress;
 	unsigned int	checksum;
 	int				status;
 }	t_connection_info;

@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:12:29 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/02 16:05:58 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 18:00:30 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define GET_CHECKSUM 3
 # define VALIDATE 4
 
-# define DELAY 70
+# define DELAY 100
 # define RETRY_MAX 5
 
 # define CARRY_CHECK 65536
@@ -38,6 +38,7 @@ void	initialize_connection_info(void);
 void	receive_header(int signo);
 void	receive_message(int signo);
 void	receive_checksum(int signo);
+void	signal_with_delay(int pid, int signo);
 
 typedef struct s_connection_info {
 	int				client_pid;

@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 15:19:19 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/02 16:41:21 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 18:43:04 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,9 @@ void	validate_argument(int pid, char *message)
 	else if (pid == 0)
 		exit_with_props(1, "This is PID for client group!");
 	else if (pid == -1)
-		exit_with_props(1, "Send signals to every processes \
-		according to your authority - BLOCKED");
+		exit_with_props(1, "Send to every processes - BLOCKED");
 	else if (pid < -100)
-		ft_printf("%s\n", "Send signals to all processes \
-		that are in the same group as the target PID");
+		ft_printf("%s\n", "Send to all processes(same group as the target PID)");
 	ft_printf("%s\n", "Valid PID");
 	if (ft_strlen(message) == 0)
 		exit_with_props(-1, "Empty message!");
@@ -56,4 +54,21 @@ unsigned int	calculate_checksum(char *message)
 		message++;
 	}
 	return (~char_sum);
+}
+
+void	print_send_progress(int *state, char *head, char *cur, int len)
+{
+	int	cur_progress;
+
+	cur_progress = (cur - head) * 10 / len;
+	if (cur_progress > *state)
+	{
+		while (*state != cur_progress)
+		{
+			write(1, "#", 1);
+			(*state)++;
+		}
+	}
+	if (cur_progress == 10)
+		ft_printf("%s", " >>> Waiting response...");
 }

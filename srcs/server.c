@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:11:42 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/02 16:19:44 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 18:43:56 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,14 @@ static void	receive_signal(int signo)
 		client_pid = g_connection_info.client_pid;
 		if (validate_message(g_connection_info.head_message))
 		{
-			ft_printf("Client PID = %d\n%s\n", g_connection_info.client_pid, \
-			g_connection_info.head_message);
+			ft_printf("<Message>\n%s\n\n", g_connection_info.head_message);
 			response_signal = SIGUSR2;
 		}
 		else
 			response_signal = SIGUSR1;
 		free(g_connection_info.head_message);
 		initialize_connection_info();
-		kill(client_pid, response_signal);
+		signal_with_delay(client_pid, response_signal);
 	}
 }
 
@@ -63,17 +62,18 @@ static void	handle_client(int signo, int client_pid)
 	if (g_connection_info.status == IDLE)
 	{
 		g_connection_info.client_pid = client_pid;
+		ft_printf("Connection Established with Client(%d)\n", \
+		g_connection_info.client_pid);
+		ft_printf("Receiving header...");
 		g_connection_info.status = GET_HEADER;
-		usleep(DELAY);
-		kill(client_pid, SIGUSR2);
+		signal_with_delay(client_pid, SIGUSR2);
 	}
 	else
 	{
-		usleep(DELAY);
 		if (g_connection_info.client_pid == client_pid)
 			receive_signal(signo);
 		else
-			kill(client_pid, SIGUSR1);
+			signal_with_delay(client_pid, SIGUSR1);
 	}
 }
 
@@ -91,8 +91,6 @@ int	main(void)
 	struct sigaction	sig_struct;
 	sigset_t			sig_mask;
 
-	ft_printf("server PID = %d\n", getpid());
-	initialize_connection_info();
 	sigemptyset(&sig_mask);
 	sigaddset(&sig_mask, SIGUSR1);
 	sigaddset(&sig_mask, SIGUSR2);
@@ -101,6 +99,7 @@ int	main(void)
 	sig_struct.sa_mask = sig_mask;
 	sigaction(SIGUSR1, &sig_struct, NULL);
 	sigaction(SIGUSR2, &sig_struct, NULL);
+	initialize_connection_info();
 	while (1)
 	{
 		pause();
