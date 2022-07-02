@@ -6,12 +6,12 @@
 #    By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/25 20:27:12 by jaesjeon          #+#    #+#              #
-#    Updated: 2022/06/25 23:13:54 by jaesjeon         ###   ########.fr        #
+#    Updated: 2022/07/02 16:05:08 by jaesjeon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-# CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 #output file names
@@ -34,19 +34,19 @@ FT_PRINTF = libftprintf.a
 
 #Mandatory source
 DIR_SRCS_MANDATORY = ./srcs
-FILES_CLIENT = client.c
+FILES_CLIENT = client.c client_utils.c
 SRCS_CLIENT = $(addprefix $(DIR_SRCS_MANDATORY)/, $(FILES_CLIENT))
 OBJS_CLIENT = $(SRCS_CLIENT:.c=.o)
-FILES_SERVER = server.c
+FILES_SERVER = server.c server_utils.c server_receive.c
 SRCS_SERVER = $(addprefix $(DIR_SRCS_MANDATORY)/, $(FILES_SERVER))
 OBJS_SERVER = $(SRCS_SERVER:.c=.o)
 
 #Bonus source
 DIR_SRCS_BONUS = ./srcs_bonus
-FILES_CLIENT_BONUS = client_bonus.c
+FILES_CLIENT_BONUS = client_bonus.c client_utils_bonus.c
 SRCS_CLIENT_BONUS = $(addprefix $(DIR_SRCS_BONUS)/, $(FILES_CLIENT_BONUS))
 OBJS_CLIENT_BONUS = $(SRCS_CLIENT_BONUS:.c=.o)
-FILES_SERVER_BONUS = server_bonus.c
+FILES_SERVER_BONUS = server_bonus.c server_utils_bonus.c server_receive_bonus.c
 SRCS_SERVER_BONUS = $(addprefix $(DIR_SRCS_BONUS)/, $(FILES_SERVER_BONUS))
 OBJS_SERVER_BONUS = $(SRCS_SERVER_BONUS:.c=.o)
 

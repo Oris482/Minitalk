@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:12:29 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/06/30 16:55:39 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 16:05:58 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include "../libft/libft.h"
 # include "../ft_printf/ft_printf.h"
 
-# define SUCCESS 0
-# define ERROR -1
+# define PASS 1
+# define FAIL 0
 
 # define IDLE 0
 # define GET_HEADER 1
@@ -34,13 +34,21 @@
 # define CARRY_CHECK 65536
 # define VALID_DATA -1
 
+void	initialize_connection_info(void);
+void	receive_header(int signo);
+void	receive_message(int signo);
+void	receive_checksum(int signo);
+
 typedef struct s_connection_info {
-	int	client_pid;
-	int	message_len;
-	unsigned char	*message;
-	unsigned char	*head_message;
-	int	checksum;
-	unsigned char	bit_counter;
-	int	status;
+	int				client_pid;
+	int				message_len;
+	char			*message;
+	char			*head_message;
+	unsigned int	checksum;
+	char			bit_counter;
+	int				status;
 }	t_connection_info;
+
+t_connection_info	g_connection_info;
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsuki2 <minsuki2@student.42seoul.kr      +#+  +:+       +#+        */
+/*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 01:39:46 by minsuki2          #+#    #+#             */
-/*   Updated: 2022/03/07 03:23:58 by minsuki2         ###   ########.fr       */
+/*   Updated: 2022/07/02 16:02:43 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_pctlst	*ft_lstadd_back_last(t_pctlst **lst, t_pctlst *new)
 	{
 		tmp = *lst;
 		while (tmp->next)
-			 tmp = tmp->next;
+			tmp = tmp->next;
 		tmp->next = new;
 	}
 	return (new);
