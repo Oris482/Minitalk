@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:11:42 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/02 19:52:58 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 20:05:34 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,9 @@ int	main(void)
 	sig_struct.sa_sigaction = sig_handler;
 	sig_struct.sa_flags = SA_SIGINFO;
 	sig_struct.sa_mask = sig_mask;
-	sigaction(SIGUSR1, &sig_struct, NULL);
-	sigaction(SIGUSR2, &sig_struct, NULL);
+	if (sigaction(SIGUSR1, &sig_struct, NULL) == ERROR || \
+		sigaction(SIGUSR2, &sig_struct, NULL) == ERROR)
+		exit_with_props(1, "Sigaction return error!");
 	initialize_connection_info();
 	while (1)
 	{

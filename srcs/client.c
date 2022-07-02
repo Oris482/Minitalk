@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:11:39 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/02 18:43:55 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 20:05:12 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,9 @@ int	main(int argc, char *argv[])
 	sig_struct.sa_sigaction = sig_handler;
 	sig_struct.sa_mask = sig_mask;
 	sig_struct.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &sig_struct, NULL);
-	sigaction(SIGUSR2, &sig_struct, NULL);
+	if (sigaction(SIGUSR1, &sig_struct, NULL) == ERROR || \
+		sigaction(SIGUSR2, &sig_struct, NULL) == ERROR)
+		exit_with_props(1, "Sigaction return error!");
 	if (argc == 3)
 	{
 		pid = ft_atoi(argv[1]);
