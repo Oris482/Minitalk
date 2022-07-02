@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:12:26 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/02 18:40:13 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 20:30:43 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@
 # define SEND_CHECKSUM 3
 # define VALIDATE 4
 
-# define DELAY 500
+# define DELAY 100
 # define CARRY_CHECK 65536
 
 void			exit_with_props(int exit_code, char *error_msg);
+void			signal_with_delay(int pid, int signo);
 void			validate_argument(int pid, char *message);
 unsigned int	calculate_checksum(char *message);
-void			signal_with_delay(int pid, int signo);
 void			print_send_progress(int *state, char *head, char *cur, int len);
 
 typedef struct s_connection_info {

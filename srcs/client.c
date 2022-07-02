@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:11:39 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/02 20:05:12 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 20:35:13 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static void	sig_handler(int signo, siginfo_t *sig_info, void *uc)
 		else if (g_connection_info.status == VALIDATE)
 		{
 			if (signo == SIGUSR2)
-				exit_with_props(1, " <<< Success!");
+				exit_with_props(0, " <<< Success!");
 			else
-				exit_with_props(-1, " <<< Data sending error!");
+				exit_with_props(1, " <<< Data sending error!");
 		}
 		else
 		{
 			if (signo == SIGUSR1)
-				exit_with_props(-1, "\nError response from server");
+				exit_with_props(1, "\nError response from server");
 		}
 	}
 	(void)uc;
@@ -142,6 +142,5 @@ int	main(int argc, char *argv[])
 		send_message(argv[2]);
 		send_checksum();
 	}
-	exit_with_props(-1, "Arguments error! #Usage : ./filename PID Message");
-	return (0);
+	exit_with_props(1, "Arguments error! #Usage : ./filename PID Message");
 }

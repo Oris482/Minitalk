@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:12:29 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/02 18:00:30 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2022/07/02 20:29:46 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@
 # define GET_CHECKSUM 3
 # define VALIDATE 4
 
-# define DELAY 100
-# define RETRY_MAX 5
+# define DELAY 10
 
 # define CARRY_CHECK 65536
 # define VALID_DATA -1
 
 void	initialize_connection_info(void);
+void	exit_with_props(int exit_code, char *error_msg);
+void	signal_with_delay(int pid, int signo);
 void	receive_header(int signo);
 void	receive_message(int signo);
 void	receive_checksum(int signo);
-void	signal_with_delay(int pid, int signo);
 
 typedef struct s_connection_info {
 	int				client_pid;
