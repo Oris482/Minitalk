@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   server_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/25 21:12:26 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/03 21:23:56 by jaesjeon         ###   ########.fr       */
+/*   Created: 2022/07/03 21:27:29 by jaesjeon          #+#    #+#             */
+/*   Updated: 2022/07/03 21:36:42 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#ifndef SERVER_BONUS_H
+# define SERVER_BONUS_H
 
 # include <unistd.h>
 # include <signal.h>
@@ -19,30 +19,37 @@
 # include "../libft/libft.h"
 # include "../ft_printf/ft_printf.h"
 
-# define SUCCESS 0
-# define ERROR -1
+# define PASS 1
+# define FAIL 0
 
 # define IDLE 0
-# define SEND_HEADER 1
-# define SEND_MESSAGE 2
-# define SEND_CHECKSUM 3
+# define GET_HEADER 1
+# define GET_MESSAGE 2
+# define GET_CHECKSUM 3
 # define VALIDATE 4
 
-# define DELAY 70
-# define CARRY_CHECK 65536
+# define DELAY 10
 
-void			exit_with_props(int exit_code, char *error_msg);
-void			signal_with_delay(int pid, int signo);
-void			validate_argument(int pid, char *message);
-unsigned int	calculate_checksum(char *message);
-void			print_send_progress(int *state, char *head, char *cur, int len);
+# define CARRY_CHECK 65536
+# define VALID_DATA -1
+
+void	initialize_connection_info(void);
+void	exit_with_props(int exit_code, char *error_msg);
+void	signal_with_delay(int pid, int signo);
+void	receive_header(int signo);
+void	receive_message(int signo);
+void	receive_checksum(int signo);
 
 typedef struct s_connection_info {
-	int				server_pid;
+	int				client_pid;
 	int				message_len;
-	int				send_progress;
+	char			*message;
+	char			*head_message;
 	unsigned int	checksum;
+	char			bit_counter;
 	int				status;
 }	t_connection_info;
+
+t_connection_info	g_connection_info;
 
 #endif

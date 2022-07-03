@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   client_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/25 21:12:26 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/03 21:23:56 by jaesjeon         ###   ########.fr       */
+/*   Created: 2022/07/03 21:27:05 by jaesjeon          #+#    #+#             */
+/*   Updated: 2022/07/03 21:27:21 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#ifndef CLIENT_BONUS_H
+# define CLIENT_BONUS_H
 
 # include <unistd.h>
 # include <signal.h>

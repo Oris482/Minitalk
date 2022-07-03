@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/25 21:11:39 by jaesjeon          #+#    #+#             */
-/*   Updated: 2022/07/03 21:23:23 by jaesjeon         ###   ########.fr       */
+/*   Created: 2022/07/03 21:28:03 by jaesjeon          #+#    #+#             */
+/*   Updated: 2022/07/03 21:28:11 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/client.h"
+#include "../headers/client_bonus.h"
 
 static t_connection_info	g_connection_info;
 

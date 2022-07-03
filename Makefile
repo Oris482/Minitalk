@@ -6,7 +6,7 @@
 #    By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/25 20:27:12 by jaesjeon          #+#    #+#              #
-#    Updated: 2022/07/02 16:05:08 by jaesjeon         ###   ########.fr        #
+#    Updated: 2022/07/03 21:30:25 by jaesjeon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,14 +83,14 @@ $(NAME_CLIENT_BONUS): $(HEADER_LIBFT) $(HEADER_CLIENT_BONUS) $(OBJS_CLIENT_BONUS
 	cp $(DIR_LIBFT)/$(LIBFT) .
 	make bonus -C $(DIR_FT_PRINTF)
 	cp $(DIR_FT_PRINTF)/$(FT_PRINTF) .
-	$(CC) $(CFLAGS) $(SRCS_CLIENT_BONUS) -I$(DIR_HEADERS) -L. -lft -o $(NAME_CLIENT_BONUS)
+	$(CC) $(CFLAGS) $(SRCS_CLIENT_BONUS) -I$(DIR_HEADERS) -L. -lft -lftprintf -o $(NAME_CLIENT_BONUS)
 
 $(NAME_SERVER_BONUS): $(HEADER_LIBFT) $(HEADER_SERVER_BONUS) $(OBJS_SERVER_BONUS)
 	make bonus -C $(DIR_LIBFT)
 	cp $(DIR_LIBFT)/$(LIBFT) .
 	make bonus -C $(DIR_FT_PRINTF)
 	cp $(DIR_FT_PRINTF)/$(FT_PRINTF) .
-	$(CC) $(CFLAGS) $(SRCS_SERVER_BONUS) -I$(DIR_HEADERS) -L. -lft -o $(NAME_SERVER_BONUS)
+	$(CC) $(CFLAGS) $(SRCS_SERVER_BONUS) -I$(DIR_HEADERS) -L. -lft -lftprintf -o $(NAME_SERVER_BONUS)
 
 clean:
 	make clean -C $(DIR_LIBFT)
